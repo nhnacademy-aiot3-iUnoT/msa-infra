@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: team1-gateway
+
+server:
+  port: 10401
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://team1-eureka:10402/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never

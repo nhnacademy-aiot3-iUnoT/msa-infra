@@ -17,7 +17,6 @@ concurrency:
 jobs:
   build-test:
     name: 빌드 및 테스트
-    working-directory: gateway
     runs-on: ubuntu-latest
     defaults:
       run:

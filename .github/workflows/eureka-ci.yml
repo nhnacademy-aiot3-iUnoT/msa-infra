@@ -1,4 +1,4 @@
-name: CI/CD
+name: Eureka CI/CD
 
 on:
   push:

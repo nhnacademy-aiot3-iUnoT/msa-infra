@@ -9,6 +9,7 @@ on:
     branches: [ main ]
     paths:
       - 'eureka/**'
+  workflow_dispatch:   # Actions 탭에서 수동 실행 버튼 활성화
 
 concurrency:
   group: ci-${{ github.ref }}

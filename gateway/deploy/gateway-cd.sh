@@ -23,7 +23,7 @@ for i in "${!SERVICES[@]}"; do
 
   # 해당 컨테이너 재빌드 및 구동
   echo "${SERVICE} 재배포"
-  docker compose up -d --build "$SERVICE"
+  docker compose up -d --build --force-recreate "$SERVICE"
 
   # 해당 컨테이너가 정상적으로 구동되었는지 헬스체크 검증
   for attempt in {1..30}; do

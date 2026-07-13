@@ -3,11 +3,13 @@ spring:
     name: team1-eureka
 
 server:
-  port: 10402
+  port: ${SERVER_PORT:10402}
 
 eureka:
   instance:
     instance-id: ${spring.application.name}:${server.port}
   client:
-    register-with-eureka: false   # 자기 자신을 클라이언트로 등록하지 않음 (단일 인스턴스)
-    fetch-registry: false         # 다른 유레카 노드 정보도 조회 안 함
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_PEER_URL}

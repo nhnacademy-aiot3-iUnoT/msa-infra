@@ -1,17 +1,35 @@
 services:
-  eureka:
-    build: .                      # 같은 디렉토리의 Dockerfile로 이미지 빌드
-    container_name: team1-eureka  # 도커 네트워크 안에서 다른 컨테이너가 이 이름으로 접근 (예: 게이트웨이가 team1-front:10402로 호출)
+  eureka-1:
+    build: .                        # 같은 디렉토리의 Dockerfile로 이미지 빌드
+    container_name: team1-eureka-1  # 도커 네트워크 안에서 다른 컨테이너가 이 이름으로 접근 (예: 게이트웨이가 team1-front:10402로 호출)
+    environment:
+      SERVER_PORT: 10402
+      EUREKA_PEER_URL: http://team1-eureka-2:10404/eureka/
     ports:
-      - "127.0.0.1:10402:10402"   # 호스트포트(컨테이너 외부로 노출할 포트):컨테이너포트(실제 서비스 포트)
-    restart: unless-stopped       # 컨테이너 죽으면 자동재시작, 수동으로 stop한 경우엔 안 살림
+      - "127.0.0.1:10402:10402"     # 호스트포트(컨테이너 외부로 노출할 포트):컨테이너포트(실제 서비스 포트)
+    restart: unless-stopped         # 컨테이너 죽으면 자동재시작, 수동으로 stop한 경우엔 안 살림
     logging:
-      driver: json-file           # 도커 기본 로깅 드라이버, 로그를 파일로 저장
+      driver: json-file             # 도커 기본 로깅 드라이버, 로그를 파일로 저장
       options:
-        max-size: "10m"           # 로그파일 하나당 최대 10MB
-        max-file: "3"             # 최대 3개까지만 보관 (넘으면 오래된 것부터 삭제)
-    networks:
-      - team1-network
+        max-size: "10m"             # 로그파일 하나당 최대 10MB
+        max-file: "3"               # 최대 3개까지만 보관 (넘으면 오래된 것부터 삭제)
+    networks: [team1-network]
+
+  eureka-2:
+    build: .
+    container_name: team1-eureka-2
+    environment:
+      SERVER_PORT: 10404
+      EUREKA_PEER_URL: http://team1-eureka-1:10402/eureka/
+    ports:
+      - "127.0.0.1:10404:10404"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks: [team1-network]
 
 networks:
   team1-network:

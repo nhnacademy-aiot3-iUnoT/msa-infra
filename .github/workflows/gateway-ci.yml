@@ -45,6 +45,8 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+
+
   deploy:
     name: 배포
     needs: build-test # 빌드·테스트 통과해야 배포
@@ -60,6 +62,5 @@ jobs:
           script: |
             set -e
             cd ~/msa-infra/gateway
-            git pull origin main
-            docker compose -f compose.yaml up -d --build
-            docker image prune -f
+            chmod +x deploy/gateway-cd.sh
+            ./deploy/gateway-cd.sh

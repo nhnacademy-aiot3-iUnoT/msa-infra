@@ -6,8 +6,6 @@ set -e
 SERVICES=("eureka-1" "eureka-2")
 PORTS=("10402" "10404")
 
-git pull origin main
-
 # 등록된 서비스 개수만큼 순차적으로 배포 진행
 for i in "${!SERVICES[@]}"; do
   SERVICE="${SERVICES[$i]}"

@@ -62,5 +62,6 @@ jobs:
           script: |
             set -e
             cd ~/msa-infra/gateway
+            git pull origin main
             chmod +x deploy/gateway-cd.sh
             ./deploy/gateway-cd.sh

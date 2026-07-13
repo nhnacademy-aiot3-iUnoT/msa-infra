@@ -6,8 +6,6 @@ set -e
 SERVICES=("gateway-1" "gateway-2")
 PORTS=("10400" "10401")
 
-git pull origin main
-
 # 등록된 서비스 개수만큼 순차적으로 롤링 배포 진행
 for i in "${!SERVICES[@]}"; do
   SERVICE="${SERVICES[$i]}"

@@ -13,7 +13,7 @@ for i in "${!SERVICES[@]}"; do
 
   # 유레카 및 라우터에서 해당 인스턴스 제외
   echo "${SERVICE} 유레카 상태 변경 (OUT_OF_SERVICE)"
-  curl -sf -X PUT -H "Content-Type: application/json" \
+  curl -sf -X POST -H "Content-Type: application/json" \
     -d '{"status": "OUT_OF_SERVICE"}' \
     "http://127.0.0.1:${PORT}/actuator/serviceregistry"
 

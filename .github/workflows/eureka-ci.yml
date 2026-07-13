@@ -61,5 +61,4 @@ jobs:
             set -e
             cd ~/msa-infra/eureka
             git pull origin main
-            chmod +x deploy/eureka-cd.sh
             ./deploy/eureka-cd.sh

@@ -15,7 +15,7 @@ for i in "${!SERVICES[@]}"; do
   echo "${SERVICE} 유레카 상태 변경 (OUT_OF_SERVICE)"
   curl -sf -X PUT -H "Content-Type: application/json" \
     -d '{"status": "OUT_OF_SERVICE"}' \
-    "http://127.0.0.1:${PORT}/actuator/service-registry"
+    "http://127.0.0.1:${PORT}/actuator/serviceregistry"
 
   # 유레카에 인스턴스의 상태가 반영될 때까지 대기
   echo "${SERVICE} 유레카 갱신 대기 (35초)"

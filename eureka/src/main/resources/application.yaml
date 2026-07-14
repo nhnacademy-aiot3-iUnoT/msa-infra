@@ -13,3 +13,12 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: ${EUREKA_PEER_URL}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never

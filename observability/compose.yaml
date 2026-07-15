@@ -1,0 +1,17 @@
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: team1-grafana
+    ports:
+      - "127.0.0.1:10410:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+    networks: [team1-network]
+
+networks:
+  team1-network:
+    external: true

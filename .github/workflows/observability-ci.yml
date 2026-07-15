@@ -20,6 +20,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -e
-            cd ~/msa-infra/observability
-            ./deploy/observability-cd.sh
+            cd ~/msa-infra
+            ./observability/deploy/observability-cd.sh
 

@@ -2,6 +2,9 @@
 # 에러 발생 시 스크립트 실행을 즉시 중단
 set -e
 
+git pull origin main
+cd ~/msa-infra/gateway
+
 # 배포할 서비스의 이름과 포트
 SERVICES=("gateway-1" "gateway-2")
 PORTS=("10400" "10401")

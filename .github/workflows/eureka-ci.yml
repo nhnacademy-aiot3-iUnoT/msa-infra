@@ -59,6 +59,5 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -e
-            cd ~/msa-infra/eureka
-            git pull origin main
-            ./deploy/eureka-cd.sh
+            cd ~/msa-infra
+            ./eureka/deploy/eureka-cd.sh

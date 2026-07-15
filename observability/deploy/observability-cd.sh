@@ -2,8 +2,8 @@
 
 set -e
 
-cd ~/msa-infra/observability
 git pull origin main
+cd ~/msa-infra/observability
 docker compose up -d --build
 
 for attempt in {1..15}; do

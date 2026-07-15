@@ -61,6 +61,5 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -e
-            cd ~/msa-infra/gateway
-            git pull origin main
-            ./deploy/gateway-cd.sh
+            cd ~/msa-infra
+            ./gateway/deploy/gateway-cd.sh

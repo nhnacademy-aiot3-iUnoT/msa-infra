@@ -1,5 +1,3 @@
-strict.perms: false   # 호스트에서 마운트된 설정 파일이라 root 소유가 아니어서 소유권 체크 비활성화
-
 filebeat.autodiscover:
   providers:
     - type: docker

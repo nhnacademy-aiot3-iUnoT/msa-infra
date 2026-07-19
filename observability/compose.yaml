@@ -6,6 +6,7 @@ services:
     environment:
       ES_USER: ${ES_USER}
       ES_PASSWORD: ${ES_PASSWORD}
+    command: ["--strict.perms=false"]   # filebeat.yml이 root 소유가 아니어서 파일 파싱 전 소유권 체크에 걸리는 문제 우회
     volumes:
       - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro

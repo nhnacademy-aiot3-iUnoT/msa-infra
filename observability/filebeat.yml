@@ -1,0 +1,31 @@
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+      templates:
+        - condition:
+            contains:
+              docker.container.name: team1
+          config:
+            - type: container
+              paths:
+                - /var/lib/docker/containers/${data.docker.container.id}/*.log
+
+processors:
+  - add_docker_metadata:
+      host: "unix:///var/run/docker.sock"
+
+output.elasticsearch:
+  hosts: ["http://s4.java21.net:9200"]
+  username: "${ES_USER}"
+  password: "${ES_PASSWORD}"
+  index: "team1-logs-%{+yyyy.MM.dd}"
+
+setup.template.name: "team1-logs"
+setup.template.pattern: "team1-logs-*"
+setup.template.settings:
+  index.lifecycle.name: "team1-logs-policy"   # 30일 지난 인덱스 자동 삭제 (ilm-setup.sh로 사전 등록 필요)
+setup.ilm.enabled: false
+
+logging.level: info
+logging.to_stderr: true

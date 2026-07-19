@@ -1,4 +1,18 @@
 services:
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.15.3
+    container_name: team1-filebeat
+    user: root  # 도커 소켓, 컨테이너 로그 파일 접근 권한 필요
+    environment:
+      ES_USER: ${ES_USER}
+      ES_PASSWORD: ${ES_PASSWORD}
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    restart: unless-stopped
+    networks: [team1-network]
+
   grafana:
     image: grafana/grafana:latest
     container_name: team1-grafana

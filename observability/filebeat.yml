@@ -16,7 +16,7 @@ processors:
       host: "unix:///var/run/docker.sock"
 
 output.elasticsearch:
-  hosts: ["http://s4.java21.net:9200"]
+  hosts: ["${ES_HOST}"]
   username: "${ES_USER}"
   password: "${ES_PASSWORD}"
   index: "team1-logs-%{+yyyy.MM.dd}"

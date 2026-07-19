@@ -4,6 +4,7 @@ services:
     container_name: team1-filebeat
     user: root  # 도커 소켓, 컨테이너 로그 파일 접근 권한 필요
     environment:
+      ES_HOST: ${ES_HOST}
       ES_USER: ${ES_USER}
       ES_PASSWORD: ${ES_PASSWORD}
     command: ["--strict.perms=false"]   # filebeat.yml이 root 소유가 아니어서 파일 파싱 전 소유권 체크에 걸리는 문제 우회

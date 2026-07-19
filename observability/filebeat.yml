@@ -12,8 +12,13 @@ filebeat.autodiscover:
                 - /var/lib/docker/containers/${data.docker.container.id}/*.log
 
 processors:
-  - add_docker_metadata:
-      host: "unix:///var/run/docker.sock"
+  - drop_fields:
+      fields:
+        - "docker.container.labels.org_opencontainers_image_description"
+        - "docker.container.labels.org_opencontainers_image_title"
+        - "docker.container.labels.org_opencontainers_image_version"
+        - "docker.container.labels.org_opencontainers_image_created"
+      ignore_missing: true
 
 output.elasticsearch:
   hosts: ["${ES_HOST}"]

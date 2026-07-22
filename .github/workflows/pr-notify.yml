@@ -1,5 +1,7 @@
 name: msa-infra PR Notify
 
+# 테스트
+
 on:
   pull_request:
     types: [opened]

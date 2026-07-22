@@ -13,21 +13,21 @@ filebeat.autodiscover:
 
 processors:
   - dissect:
-      tokenizer: "%{log_timestamp} %{log_level} %{} --- [%{}] [%{}] [%{}] %{logger} : %{log_message}"
+      tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] [%{}] %{logger->} : %{log_message}"
       field: "message"
       target_prefix: ""
       when:
         contains:
           container.name: "team1-front"
   - dissect:
-      tokenizer: "%{log_timestamp} %{log_level} %{} --- [%{}] [%{}] [%{}] %{logger} : %{log_message}"
+      tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] [%{}] %{logger->} : %{log_message}"
       field: "message"
       target_prefix: ""
       when:
         contains:
           container.name: "team1-gateway"
   - dissect:
-      tokenizer: "%{log_timestamp} %{log_level} %{} --- [%{}] [%{}] %{logger} : %{log_message}"
+      tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] %{logger->} : %{log_message}"
       field: "message"
       target_prefix: ""
       when:

@@ -14,15 +14,8 @@ for i in "${!SERVICES[@]}"; do
   SERVICE="${SERVICES[$i]}"
   PORT="${PORTS[$i]}"
 
-  # 유레카 및 라우터에서 해당 인스턴스 제외
-  echo "${SERVICE} 유레카 상태 변경 (OUT_OF_SERVICE)"
-  curl -sf -X POST -H "Content-Type: application/json" \
-    -d '{"status": "OUT_OF_SERVICE"}' \
-    "http://127.0.0.1:${PORT}/actuator/serviceregistry"
-
-  # 유레카에 인스턴스의 상태가 반영될 때까지 대기
-  echo "${SERVICE} 유레카 갱신 대기 (35초)"
-  sleep 35;
+  # nginx가 게이트웨이로 라우팅할 때 유레카를 바라보지 않음 (OUT_OF_SERVICE 전환 불필요)
+  # nginx 기본 passive failover(max_fails/fail_timeout, proxy_next_upstream)가 실패한 요청을 살아있는 인스턴스로 자동 전환
 
   # 해당 컨테이너 재빌드 및 구동
   echo "${SERVICE} 재배포"

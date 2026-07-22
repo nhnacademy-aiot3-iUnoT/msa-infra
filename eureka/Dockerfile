@@ -25,5 +25,4 @@ COPY --from=build /app/target/*.jar app.jar
 # root로 실행하지 않도록 비루트 사용자 지정 (보안)
 USER 1000
 
-EXPOSE 10402
 ENTRYPOINT ["java", "-jar", "app.jar"]

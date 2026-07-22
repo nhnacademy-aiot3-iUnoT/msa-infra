@@ -11,7 +11,7 @@ eureka:
     service-url:
       defaultZone: >-
         http://team1-eureka-1:10402/eureka/,
-        http://team1-eureka-2:10404/eureka/
+        http://team1-eureka-2:10403/eureka/
 
 management:
   endpoints:

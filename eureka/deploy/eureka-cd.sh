@@ -7,7 +7,7 @@ cd ~/msa-infra/eureka
 
 # 배포할 서비스의 이름과 포트
 SERVICES=("eureka-1" "eureka-2")
-PORTS=("10402" "10404")
+PORTS=("10402" "10403")
 
 # 등록된 서비스 개수만큼 순차적으로 배포 진행
 for i in "${!SERVICES[@]}"; do
@@ -16,7 +16,7 @@ for i in "${!SERVICES[@]}"; do
 
   # 해당 컨테이너 재빌드 및 구동
   echo "${SERVICE} 재배포"
-  docker compose up -d --build "$SERVICE"
+  docker compose up -d --build --force-recreate "$SERVICE"
 
   # 해당 컨테이너가 정상적으로 구동되었는지 헬스체크 검증
   for attempt in {1..30}; do

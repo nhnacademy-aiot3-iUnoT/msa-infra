@@ -16,7 +16,11 @@ processors:
       tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] [%{}] %{logger->} : %{log_message}"
       field: "message"
       target_prefix: ""
-      ignore_failure: true
+      on_failure:
+        - dissect:
+            tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] %{logger->} : %{log_message}"
+            field: "message"
+            target_prefix: ""
   - drop_fields:
       fields:
         - "docker.container.labels.org_opencontainers_image_description"

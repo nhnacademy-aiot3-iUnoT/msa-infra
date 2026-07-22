@@ -11,6 +11,8 @@ public class RouteLocatorConfig {
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
+                .route("team1-rule-engine",
+                        p -> p.path("/api/rule-engine/**").uri("lb://rule-engine"))
                 .route("team1-front",
                         p -> p.path("/**").uri("lb://team1-front"))
                 .build();

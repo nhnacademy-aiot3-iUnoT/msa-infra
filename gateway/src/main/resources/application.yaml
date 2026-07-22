@@ -21,3 +21,9 @@ management:
   endpoint:
     health:
       show-details: never
+  tracing:
+    sampling:
+      probability: 1 # 트래픽 봐서 낮추기
+    export:
+      zipkin:
+        endpoint: http://team1-zipkin:9411/api/v2/spans

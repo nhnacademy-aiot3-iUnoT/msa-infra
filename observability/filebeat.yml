@@ -13,21 +13,28 @@ filebeat.autodiscover:
 
 processors:
   - dissect:
-      tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] [%{}] %{logger->} : %{log_message}"
+      tokenizer: "%{log_timestamp} %{log_level} %{} --- [%{}] [%{}] [%{}] %{logger} : %{log_message}"
       field: "message"
       target_prefix: ""
-      on_failure:
-        - dissect:
-            tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] %{logger->} : %{log_message}"
-            field: "message"
-            target_prefix: ""
-  - drop_fields:
-      fields:
-        - "docker.container.labels.org_opencontainers_image_description"
-        - "docker.container.labels.org_opencontainers_image_title"
-        - "docker.container.labels.org_opencontainers_image_version"
-        - "docker.container.labels.org_opencontainers_image_created"
-      ignore_missing: true
+      when:
+        contains:
+          container.name: "team1-front"
+  - dissect:
+      tokenizer: "%{log_timestamp} %{log_level} %{} --- [%{}] [%{}] [%{}] %{logger} : %{log_message}"
+      field: "message"
+      target_prefix: ""
+      when:
+        contains:
+          container.name: "team1-gateway"
+  - dissect:
+      tokenizer: "%{log_timestamp} %{log_level} %{} --- [%{}] [%{}] %{logger} : %{log_message}"
+      field: "message"
+      target_prefix: ""
+      when:
+        not:
+          or:
+            - contains: { container.name: "team1-front" }
+            - contains: { container.name: "team1-gateway" }
 
 output.elasticsearch:
   hosts: ["${ES_HOST}"]

@@ -28,6 +28,14 @@ services:
     restart: unless-stopped
     networks: [team1-network]
 
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: team1-zipkin
+    ports:
+      - "127.0.0.1:10418:9411"
+    restart: unless-stopped
+    networks: [team1-network]
+
 networks:
   team1-network:
     external: true

@@ -13,7 +13,7 @@ filebeat.autodiscover:
 
 processors:
   - dissect:
-      tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] %{logger->} : %{log_message}"
+      tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] [%{}] %{logger->} : %{log_message}"
       field: "message"
       target_prefix: ""
       ignore_failure: true

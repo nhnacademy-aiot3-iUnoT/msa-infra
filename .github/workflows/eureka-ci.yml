@@ -46,7 +46,7 @@ jobs:
           retention-days: 7
 
   build-push:
-    name: 이미지 빌드 및 GHCR 푸시
+    name: 이미지 빌드 및 GHCR Push
     needs: build-test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest

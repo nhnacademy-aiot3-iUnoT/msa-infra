@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: observability-ci-${{ github.ref }}
   cancel-in-progress: true # 같은 브랜치에 새 푸시가 오면 진행 중인 실행 취소
 
 jobs:

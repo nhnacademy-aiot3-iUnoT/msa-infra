@@ -12,7 +12,7 @@ on:
   workflow_dispatch:   # Actions 탭에서 수동 실행 버튼 활성화
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: eureka-ci-${{ github.ref }}
   cancel-in-progress: true # 같은 브랜치에 새 푸시가 오면 진행 중인 실행 취소
 
 jobs:

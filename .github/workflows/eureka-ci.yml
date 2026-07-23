@@ -24,10 +24,10 @@ jobs:
         working-directory: eureka
     steps:
       - name: 체크아웃 # Repository 코드를 러너로 클론
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: JDK 21 설정
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@main
         with:
           distribution: temurin
           java-version: "21"
@@ -38,7 +38,7 @@ jobs:
 
       - name: 테스트 리포트 업로드
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: surefire-reports
           path: eureka/target/surefire-reports/
@@ -55,17 +55,17 @@ jobs:
       packages: write
     steps:
       - name: 체크아웃
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: GHCR 로그인
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4.4.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 이미지 빌드 및 푸시 (latest + 커밋SHA)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: eureka
           push: true

@@ -45,10 +45,37 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
+  build-push:
+    name: 이미지 빌드 및 GHCR 푸시
+    needs: build-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v4
+
+      - name: GHCR 로그인
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 이미지 빌드 및 푸시 (latest + 커밋SHA)
+        uses: docker/build-push-action@v5
+        with:
+          context: eureka
+          push: true
+          tags: |
+            ghcr.io/nhnacademy-aiot3-iunot/msa-infra-eureka:latest
+            ghcr.io/nhnacademy-aiot3-iunot/msa-infra-eureka:${{ github.sha }}
+
   deploy:
     name: 배포
-    needs: build-test # 빌드·테스트 통과해야 배포
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' # main 직접 push에만 (PR 제외, PR Merge 시 push 트리거)
+    needs: build-push
     runs-on: ubuntu-latest
     steps:
       - name: 배포
@@ -60,4 +87,4 @@ jobs:
           script: |
             set -e
             cd ~/msa-infra
-            ./eureka/deploy/eureka-cd.sh
+            IMAGE_TAG=${{ github.sha }} ./eureka/deploy/eureka-cd.sh

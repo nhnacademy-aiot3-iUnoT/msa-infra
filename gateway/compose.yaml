@@ -1,6 +1,6 @@
 services:
   gateway-1:
-    build: .                        # 같은 디렉토리의 Dockerfile로 이미지 빌드
+    image: ghcr.io/${GHCR_OWNER}/msa-infra-gateway:${IMAGE_TAG:-latest}
     container_name: team1-gateway-1 # 도커 네트워크 안에서 다른 컨테이너가 이 이름으로 접근 (예: 게이트웨이가 team1-front:10402로 호출)
     environment:
       SERVER_PORT: 10400
@@ -15,7 +15,7 @@ services:
     networks: [team1-network]
 
   gateway-2:
-    build: .
+    image: ghcr.io/${GHCR_OWNER}/msa-infra-gateway:${IMAGE_TAG:-latest}
     container_name: team1-gateway-2
     environment:
       SERVER_PORT: 10401

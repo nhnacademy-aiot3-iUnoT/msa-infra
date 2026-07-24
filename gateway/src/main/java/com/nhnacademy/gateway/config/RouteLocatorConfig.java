@@ -11,10 +11,10 @@ public class RouteLocatorConfig {
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("team1-account",
-                        p -> p.path("/api/admin/accounts/**").uri("lb://account"))
-                .route("team1-rule-engine",
-                        p -> p.path("/api/rule-engine/**").uri("lb://rule-engine"))
+                .route("team1-account", p ->
+                        p.path("/api/admin/accounts/**", "/api/accounts/**").uri("lb://account"))
+                .route("team1-rule-engine", p ->
+                        p.path("/api/rule-engine/**").uri("lb://rule-engine"))
                 .build();
     }
 }

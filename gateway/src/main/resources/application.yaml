@@ -3,7 +3,7 @@ spring:
     name: team1-gateway
 
 server:
-  port: ${SERVER_PORT:10401}
+  port: ${SERVER_PORT:10400}
 eureka:
   instance:
     instance-id: ${spring.application.name}:${server.port}

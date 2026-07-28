@@ -5,7 +5,9 @@ set -e
 git pull origin main
 cd ~/msa-infra/gateway
 
-export GHCR_OWNER="nhnacademy-aiot3-iunot"
+set -a
+source ~/infra/common.env
+set +a
 NEW_TAG="${IMAGE_TAG:-latest}"
 LAST_GOOD_FILE=".last-good-tag"
 OLD_TAG=$(cat "$LAST_GOOD_FILE" 2>/dev/null || echo "latest")

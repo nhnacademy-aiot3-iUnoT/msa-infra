@@ -1,4 +1,4 @@
-package com.nhnacademy.gateway.config;
+package com.nhnacademy.gateway.common.config;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;

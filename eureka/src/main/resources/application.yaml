@@ -7,7 +7,7 @@ server:
 
 eureka:
   instance:
-    hostname: ${EUREKA_INSTANCE_HOSTNAME}
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:team1-eureka-1}
     instance-id: ${spring.application.name}:${server.port}
   client:
     register-with-eureka: true

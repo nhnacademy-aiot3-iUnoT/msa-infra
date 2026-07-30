@@ -19,7 +19,7 @@ PORTS=("10400" "10401")
 deploy_tag() {
   local tag="$1"
   export IMAGE_TAG="$tag"
-  docker compose pull
+  docker compose -f compose.yaml pull
 
   for i in "${!SERVICES[@]}"; do
     SERVICE="${SERVICES[$i]}"
@@ -29,7 +29,7 @@ deploy_tag() {
     # nginx 기본 passive failover(max_fails/fail_timeout, proxy_next_upstream)가 실패한 요청을 살아있는 인스턴스로 자동 전환
 
     echo "${SERVICE} 재배포 (tag=${tag})"
-    docker compose up -d --force-recreate "$SERVICE"
+    docker compose -f compose.yaml up -d --force-recreate "$SERVICE"
 
     for attempt in {1..30}; do
       if curl -sf "http://127.0.0.1:${PORT}/actuator/health" 2>/dev/null | grep -q '"status":"UP"'; then

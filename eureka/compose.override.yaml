@@ -1,0 +1,5 @@
+services:
+  eureka-1:
+    build: .
+  eureka-2:
+    build: .

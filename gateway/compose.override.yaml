@@ -1,0 +1,5 @@
+services:
+  gateway-1:
+    build: .
+  gateway-2:
+    build: .

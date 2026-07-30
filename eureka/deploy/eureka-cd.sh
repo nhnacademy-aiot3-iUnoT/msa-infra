@@ -16,14 +16,14 @@ PORTS=("10402" "10403")
 deploy_tag() {
   local tag="$1"
   export IMAGE_TAG="$tag"
-  docker compose pull
+  docker compose -f compose.yaml pull
 
   for i in "${!SERVICES[@]}"; do
     SERVICE="${SERVICES[$i]}"
     PORT="${PORTS[$i]}"
 
     echo "${SERVICE} 재배포 (tag=${tag})"
-    docker compose up -d --force-recreate "$SERVICE"
+    docker compose -f compose.yaml up -d --force-recreate "$SERVICE"
 
     for attempt in {1..30}; do
       if curl -sf "http://127.0.0.1:${PORT}/actuator/health" 2>/dev/null | grep -q '"status":"UP"'; then

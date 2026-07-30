@@ -4,8 +4,8 @@ services:
     container_name: team1-gateway-1 # 도커 네트워크 안에서 다른 컨테이너가 이 이름으로 접근 (예: 게이트웨이가 team1-front:10402로 호출)
     environment:
       SERVER_PORT: 10400
-      ZIPKIN_ENDPOINT: ${ZIPKIN_ENDPOINT}
-      EUREKA_DEFAULT_ZONE: ${EUREKA_DEFAULT_ZONE}
+      ZIPKIN_ENDPOINT: ${ZIPKIN_ENDPOINT:-http://team1-zipkin:9411/api/v2/spans}
+      EUREKA_DEFAULT_ZONE: ${EUREKA_DEFAULT_ZONE:-http://team1-eureka-1:10402/eureka/,http://team1-eureka-2:10403/eureka/}
     ports:
       - "127.0.0.1:10400:10400"     # 호스트포트(컨테이너 외부로 노출할 포트):컨테이너포트(실제 서비스 포트)
     restart: unless-stopped         # 컨테이너 죽으면 자동재시작, 수동으로 stop한 경우엔 안 살림
@@ -21,8 +21,8 @@ services:
     container_name: team1-gateway-2
     environment:
       SERVER_PORT: 10401
-      ZIPKIN_ENDPOINT: ${ZIPKIN_ENDPOINT}
-      EUREKA_DEFAULT_ZONE: ${EUREKA_DEFAULT_ZONE}
+      ZIPKIN_ENDPOINT: ${ZIPKIN_ENDPOINT:-http://team1-zipkin:9411/api/v2/spans}
+      EUREKA_DEFAULT_ZONE: ${EUREKA_DEFAULT_ZONE:-http://team1-eureka-1:10402/eureka/,http://team1-eureka-2:10403/eureka/}
     ports:
       - "127.0.0.1:10401:10401"
     restart: unless-stopped

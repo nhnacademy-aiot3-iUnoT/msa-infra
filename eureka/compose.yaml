@@ -4,6 +4,7 @@ services:
     container_name: team1-eureka-1  # 도커 네트워크 안에서 다른 컨테이너가 이 이름으로 접근 (예: 게이트웨이가 team1-front:10402로 호출)
     environment:
       SERVER_PORT: 10402
+      EUREKA_INSTANCE_HOSTNAME: team1-eureka-1
       EUREKA_PEER_URL: http://team1-eureka-2:10403/eureka/
     ports:
       - "127.0.0.1:10402:10402"     # 호스트포트(컨테이너 외부로 노출할 포트):컨테이너포트(실제 서비스 포트)
@@ -20,6 +21,7 @@ services:
     container_name: team1-eureka-2
     environment:
       SERVER_PORT: 10403
+      EUREKA_INSTANCE_HOSTNAME: team1-eureka-2
       EUREKA_PEER_URL: http://team1-eureka-1:10402/eureka/
     ports:
       - "127.0.0.1:10403:10403"

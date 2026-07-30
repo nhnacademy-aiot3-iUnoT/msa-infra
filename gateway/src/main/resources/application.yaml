@@ -25,3 +25,11 @@ management:
     export:
       zipkin:
         endpoint: ${ZIPKIN_ENDPOINT:http://team1-zipkin:9411/api/v2/spans}
+
+services:
+  account:
+    url: http://localhost:10413
+  rule-engine:
+    url: http://localhost:10406
+  inventory:
+    url: http://localhost:10411

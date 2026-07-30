@@ -1,0 +1,7 @@
+services:
+  account:
+    url: lb://account
+  rule-engine:
+    url: lb://rule-engine
+  inventory:
+    url: lb://inventory

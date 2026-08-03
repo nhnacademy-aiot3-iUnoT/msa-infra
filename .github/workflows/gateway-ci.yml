@@ -6,6 +6,7 @@ on:
     paths:
       - 'gateway/**'
   pull_request:
+    branches: [main, develop]
     paths:
       - 'gateway/**'
   workflow_dispatch:   # Actions 탭에서 수동 실행 버튼 활성화
@@ -44,6 +45,7 @@ jobs:
         run: >
           ./mvnw -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           -Dsonar.projectKey=iunot-gateway
+          -Dsonar.projectName=iunot-gateway
 
       - name: 테스트 리포트 업로드
         if: always()
@@ -53,8 +55,6 @@ jobs:
           path: gateway/target/surefire-reports/
           if-no-files-found: ignore
           retention-days: 7
-
-
 
   build-push:
     name: 이미지 빌드 및 GHCR Push

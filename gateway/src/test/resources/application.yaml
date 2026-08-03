@@ -1,0 +1,19 @@
+management:
+  tracing:
+    export:
+      enabled: false
+
+services:
+  url:
+    account: http://localhost:10413
+    rule-engine: http://localhost:10406
+    inventory: http://localhost:10411
+
+security:
+  jwt:
+    public-paths: /api/auth/login, /api/accounts, /api/accounts/check-email, /api/accounts/check-pwd
+
+eureka:
+  client:
+    enabled: false
+

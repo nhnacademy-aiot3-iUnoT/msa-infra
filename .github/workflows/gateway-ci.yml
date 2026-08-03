@@ -6,7 +6,6 @@ on:
     paths:
       - 'gateway/**'
   pull_request:
-    branches: [ main ]
     paths:
       - 'gateway/**'
   workflow_dispatch:   # Actions 탭에서 수동 실행 버튼 활성화

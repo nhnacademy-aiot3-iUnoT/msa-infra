@@ -1,6 +1,6 @@
 package com.nhnacademy.gateway.filter;
 
-import com.nhnacademy.gateway.common.config.JwtAuthProperties;
+import com.nhnacademy.gateway.global.config.JwtAuthProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

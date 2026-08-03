@@ -1,6 +1,6 @@
 package com.nhnacademy.gateway.filter;
 
-import com.nhnacademy.gateway.common.config.JwtAuthProperties;
+import com.nhnacademy.gateway.global.config.JwtAuthProperties;
 import com.nhnacademy.gateway.dto.ApiResponse;
 import com.nhnacademy.gateway.dto.ErrorCode;
 import lombok.RequiredArgsConstructor;

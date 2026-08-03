@@ -1,4 +1,4 @@
-package com.nhnacademy.gateway.common.config;
+package com.nhnacademy.gateway.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

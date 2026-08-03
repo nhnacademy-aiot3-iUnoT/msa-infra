@@ -1,4 +1,4 @@
-package com.nhnacademy.gateway.common.exception;
+package com.nhnacademy.gateway.global.exception;
 
 import com.nhnacademy.gateway.dto.ApiResponse;
 import com.nhnacademy.gateway.dto.ErrorCode;

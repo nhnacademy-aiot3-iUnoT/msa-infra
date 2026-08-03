@@ -28,6 +28,17 @@ services:
     restart: unless-stopped
     networks: [team1-network]
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: team1-prometheus
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:10417:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks: [team1-network]
+
   zipkin:
     image: openzipkin/zipkin:latest
     container_name: team1-zipkin
@@ -42,3 +53,4 @@ networks:
 
 volumes:
   grafana-data:
+  prometheus-data:

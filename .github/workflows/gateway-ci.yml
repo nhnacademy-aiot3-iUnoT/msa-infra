@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: 체크아웃 # Repository 코드를 러너로 클론
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # Sonar가 사용할 Git 히스토리 가져오기
 
       - name: JDK 21 설정
         uses: actions/setup-java@v5
@@ -34,6 +36,14 @@ jobs:
 
       - name: 빌드 및 테스트
         run: ./mvnw -B clean verify # clean -> compile -> test -> verify
+
+      - name: SonarQube 분석
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: >
+          ./mvnw -B sonar:sonar
+          -Dsonar.projectKey=iunot-gateway
 
       - name: 테스트 리포트 업로드
         if: always()

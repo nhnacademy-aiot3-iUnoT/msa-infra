@@ -9,7 +9,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, service-registry
+        include: health, service-registry, prometheus
   endpoint:
     health:
       show-details: never

@@ -8,3 +8,9 @@ scrape_configs:
       - targets:
           - team1-gateway-1:10400
           - team1-gateway-2:10401
+  - job_name: eureka
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - team1-eureka-1:10402
+          - team1-eureka-2:10403

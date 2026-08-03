@@ -6,7 +6,7 @@ on:
     paths:
       - 'gateway/**'
   pull_request:
-    branches: [main, develop]
+    branches: [ main, develop ]
     paths:
       - 'gateway/**'
   workflow_dispatch:   # Actions 탭에서 수동 실행 버튼 활성화
@@ -46,6 +46,7 @@ jobs:
           ./mvnw -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           -Dsonar.projectKey=iunot-gateway
           -Dsonar.projectName=iunot-gateway
+          -Dsonar.qualitygate.wait=true
 
       - name: 테스트 리포트 업로드
         if: always()

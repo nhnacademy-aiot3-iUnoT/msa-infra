@@ -25,5 +25,6 @@ jobs:
           script: |
             set -e
             cd ~/msa-infra
+            git pull origin main
             ./observability/deploy/observability-cd.sh
 

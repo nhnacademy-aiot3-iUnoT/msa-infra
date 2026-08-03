@@ -102,4 +102,5 @@ jobs:
           script: |
             set -e
             cd ~/msa-infra
+            git pull origin main
             IMAGE_TAG=${{ github.sha }} ./gateway/deploy/gateway-cd.sh

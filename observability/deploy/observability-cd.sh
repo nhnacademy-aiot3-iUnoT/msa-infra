@@ -2,13 +2,13 @@
 
 set -e
 
-git pull origin main
 cd ~/msa-infra/observability
-docker compose up -d --build
+
+docker compose up -d --build --force-recreate
 
 for attempt in {1..15}; do
   if curl -sf http://127.0.0.1:10410/api/health >/dev/null 2>&1; then
-    echo "그라파나 정상 기동"
+    echo "그라파나 정상 가동"
     break;
   fi
 

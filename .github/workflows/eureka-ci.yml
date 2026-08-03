@@ -86,4 +86,5 @@ jobs:
           script: |
             set -e
             cd ~/msa-infra
+            git pull origin main
             IMAGE_TAG=${{ github.sha }} ./eureka/deploy/eureka-cd.sh

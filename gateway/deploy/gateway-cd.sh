@@ -2,7 +2,6 @@
 # 에러 발생 시 스크립트 실행을 즉시 중단
 set -e
 
-git pull origin main
 cd ~/msa-infra/gateway
 
 set -a

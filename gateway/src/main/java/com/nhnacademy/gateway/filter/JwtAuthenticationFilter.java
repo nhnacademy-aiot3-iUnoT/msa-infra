@@ -1,5 +1,6 @@
 package com.nhnacademy.gateway.filter;
 
+import com.nhnacademy.gateway.common.config.JwtAuthProperties;
 import com.nhnacademy.gateway.dto.ApiResponse;
 import com.nhnacademy.gateway.dto.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -18,24 +19,23 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import tools.jackson.databind.json.JsonMapper;
 
-import java.util.List;
 import java.util.Objects;
 
 
-// @Component
+@Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     private final ReactiveJwtDecoder jwtDecoder;
     private final JsonMapper jsonMapper;
-    private final List<String> publicPaths = List.of("/api/accounts/login", "/api/accounts/register"); // Default public paths or could be injected via @Value
+    private final JwtAuthProperties jwtAuthProperties;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
         String path = request.getPath().value();
-        boolean shouldNotFilter = publicPaths.stream()
-                .anyMatch(publicPath -> Objects.equals(publicPath, path) || path.startsWith(publicPath + "/"));
+        boolean shouldNotFilter = jwtAuthProperties.publicPaths().stream()
+                .anyMatch(publicPath -> Objects.equals(publicPath, path));
 
         if (shouldNotFilter) {
             return chain.filter(exchange);

@@ -1,32 +1,25 @@
 package com.nhnacademy.gateway.common.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@RequiredArgsConstructor
 public class RouteLocatorConfig {
-
-    @Value("${services.account.url}")
-    private String accountUrl;
-
-    @Value("${services.rule-engine.url}")
-    private String ruleEngineUrl;
-
-    @Value("${services.inventory.url}")
-    private String inventoryUrl;
+    private final ServiceUrlProperties urlProperties;
 
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("team1-account", p ->
-                        p.path("/api/auth/**", "/api/accounts/**").uri(accountUrl))
+                        p.path("/api/auth/**", "/api/accounts/**").uri(urlProperties.account()))
                 .route("team1-rule-engine", p ->
-                        p.path("/api/rule-engine/**").uri(ruleEngineUrl))
+                        p.path("/api/rule-engine/**").uri(urlProperties.ruleEngine()))
                 .route("team1-inventory", p ->
-                        p.path("/api/admin/medicines/**", "/api/core/**").uri(inventoryUrl))
+                        p.path("/api/admin/medicines/**", "/api/core/**").uri(urlProperties.inventory()))
                 .build();
     }
 }

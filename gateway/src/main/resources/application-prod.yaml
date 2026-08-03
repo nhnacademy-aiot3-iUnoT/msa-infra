@@ -1,7 +1,20 @@
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://team1-eureka-1:10402/eureka/,http://team1-eureka-2:10403/eureka/}
+
+management:
+  tracing:
+    sampling:
+      probability: 1 # 트래픽 봐서 낮추기
+    export:
+      zipkin:
+        endpoint: ${ZIPKIN_ENDPOINT:http://team1-zipkin:9411/api/v2/spans}
+
 services:
-  account:
-    url: lb://account
-  rule-engine:
-    url: lb://rule-engine
-  inventory:
-    url: lb://inventory
+  url:
+    account: lb://account
+    rule-engine: lb://rule-engine
+    inventory: lb://inventory

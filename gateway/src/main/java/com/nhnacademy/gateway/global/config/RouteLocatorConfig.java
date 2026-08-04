@@ -19,7 +19,7 @@ public class RouteLocatorConfig {
                 .route("team1-rule-engine", p ->
                         p.path("/api/rule-engine/**").uri(urlProperties.ruleEngine()))
                 .route("team1-inventory", p ->
-                        p.path("/api/admin/medicines/**", "/api/core/**").uri(urlProperties.inventory()))
+                        p.path("/api/core/**").uri(urlProperties.inventory()))
                 .build();
     }
 }

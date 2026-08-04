@@ -30,15 +30,6 @@
         <java.version>21</java.version>
         <spring-cloud.version>2025.1.2</spring-cloud.version>
         <jacoco.version>0.8.15</jacoco.version>
-        <sonar.coverage.jacoco.xmlReportPaths>
-            ${project.build.directory}/site/jacoco/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.coverage.exclusions>
-            **/global/config/**,
-            **/global/error/exception/**,
-            **/global/error/ErrorCode.java,
-            **/dto/**
-        </sonar.coverage.exclusions>
     </properties>
     <dependencies>
         <dependency>
@@ -109,6 +100,15 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Application.class</exclude>
+                        <exclude>**/config/**</exclude>
+                        <exclude>**/dto/**</exclude>
+                        <exclude>**/generated/**</exclude>
+                        <exclude>**/*Generated*.class</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>jacoco-initialize</id>

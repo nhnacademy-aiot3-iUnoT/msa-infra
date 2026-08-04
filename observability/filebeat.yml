@@ -15,50 +15,8 @@ filebeat.autodiscover:
                 negate: true
                 match: after
 
-processors:
-  # 트레이싱 붙은 서비스 (3브라켓: 앱이름/스레드/trace-span)
-  - dissect:
-      tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] [%{trace_span}] %{logger->} : %{log_message}"
-      field: "message"
-      target_prefix: ""
-      when:
-        or:
-          - contains: { container.name: "team1-front" }
-          - contains: { container.name: "team1-gateway" }
-          - contains: { container.name: "team1-inventory" }
-          - contains: { container.name: "team1-rule-engine" }
-          - contains: { container.name: "team1-account" }
-  # 트레이싱 안 붙은 서비스 (2브라켓: 앱이름/스레드)
-  - dissect:
-      tokenizer: "%{log_timestamp->} %{log_level} %{} --- [%{}] [%{}] %{logger->} : %{log_message}"
-      field: "message"
-      target_prefix: ""
-      when:
-        not:
-          or:
-            - contains: { container.name: "team1-front" }
-            - contains: { container.name: "team1-gateway" }
-            - contains: { container.name: "team1-inventory" }
-            - contains: { container.name: "team1-rule-engine" }
-            - contains: { container.name: "team1-account" }
-  # trace_span("traceId-spanId")을 개별 필드로 분리, span 없는 로그는 이 단계만 조용히 스킵됨
-  - dissect:
-      tokenizer: "%{trace_id}-%{span_id}"
-      field: "trace_span"
-      target_prefix: ""
-      ignore_failure: true
-
-output.elasticsearch:
-  hosts: ["${ES_HOST}"]
-  username: "${ES_USER}"
-  password: "${ES_PASSWORD}"
-  index: "team1-logs-%{+yyyy.MM.dd}"
-
-setup.template.name: "team1-logs"
-setup.template.pattern: "team1-logs-*"
-setup.template.settings:
-  index.lifecycle.name: "team1-logs-policy"   # 30일 지난 인덱스 자동 삭제 (ilm-setup.sh로 사전 등록 필요)
-setup.ilm.enabled: false
+output.logstash:
+  hosts: ["team1-logstash:5044"]
 
 logging.level: info
 logging.to_stderr: true

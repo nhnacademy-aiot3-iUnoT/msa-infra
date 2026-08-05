@@ -15,12 +15,10 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.JwtValidationException;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import tools.jackson.databind.json.JsonMapper;
-
-import java.util.Objects;
-
 
 @Component
 @RequiredArgsConstructor
@@ -28,6 +26,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     private final ReactiveJwtDecoder jwtDecoder;
     private final JsonMapper jsonMapper;
     private final JwtAuthProperties jwtAuthProperties;
+    private final PathMatcher pathMatcher;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -35,7 +34,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
         String path = request.getPath().value();
         boolean shouldNotFilter = jwtAuthProperties.publicPaths().stream()
-                .anyMatch(publicPath -> Objects.equals(publicPath, path));
+                .anyMatch(publicPath -> pathMatcher.match(publicPath, path));
 
         if (shouldNotFilter) {
             return chain.filter(exchange);

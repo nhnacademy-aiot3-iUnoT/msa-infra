@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtValidationException;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -42,12 +43,13 @@ class JwtAuthenticationFilterTest {
     private AtomicBoolean filterChainCalled;
 
     private final String publicPath = "/api/accounts";
+    private final String wildcardPublicPath = "/api/accounts/pwd/**";
     private final String privatePath = "/api/rule-engine";
 
     @BeforeEach
     void setUp() {
-        JwtAuthProperties properties = new JwtAuthProperties(List.of(publicPath));
-        jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtDecoder, JsonMapper.builder().build(), properties);
+        JwtAuthProperties properties = new JwtAuthProperties(List.of(publicPath, wildcardPublicPath));
+        jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtDecoder, JsonMapper.builder().build(), properties, new AntPathMatcher());
         filterChainCalled = new AtomicBoolean(false);
 
         filterChain = exchange -> {
@@ -75,6 +77,46 @@ class JwtAuthenticationFilterTest {
 
         assertThat(exchange.getResponse().getStatusCode())
                 .isNotEqualTo(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Test
+    @DisplayName("와일드카드로 등록된 public-path로 요청하면 토큰 검증을 하지 않는다.")
+    void filter_WhenRequestWildcardPublicPath_ShouldNotTokenVerify() {
+        // given
+        ServerWebExchange exchange = requestWithToken("/api/accounts/pwd/reset/test", "");
+
+        // when & then
+        StepVerifier.create(jwtAuthenticationFilter.filter(exchange, filterChain))
+                .verifyComplete();
+
+        then(jwtDecoder)
+                .should(never())
+                .decode(anyString());
+
+        assertThat(filterChainCalled)
+                .isTrue();
+
+        assertThat(exchange.getResponse().getStatusCode())
+                .isNotEqualTo(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Test
+    @DisplayName("와일드카드가 아닌 public-path로 등록된 하위 경로는 토큰을 검증한다.")
+    void filter_WhenRequestPrivatePath_ShouldTokenVerify() {
+        // given
+        String token = "token";
+        ServerWebExchange exchange = requestWithToken("/api/accounts/1", token);
+
+        given(jwtDecoder.decode(token))
+                .willReturn(Mono.empty());
+
+        // when & then
+        StepVerifier.create(jwtAuthenticationFilter.filter(exchange, filterChain))
+                .verifyComplete();
+
+        then(jwtDecoder)
+                .should()
+                .decode(token);
     }
 
     @Test

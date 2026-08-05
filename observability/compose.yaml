@@ -18,7 +18,6 @@ services:
       ES_HOST: ${ES_HOST}
       ES_USER: ${ES_USER}
       ES_PASSWORD: ${ES_PASSWORD}
-      LS_JAVA_OPTS: "-Xms256m -Xmx256m"
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
     restart: unless-stopped

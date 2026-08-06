@@ -16,7 +16,7 @@ curl -sf -X PUT "${ES_HOST}/_ilm/policy/team1-logs-policy" \
     "policy": {
       "phases": {
         "delete": {
-          "min_age": "30d",
+          "min_age": "7d",
           "actions": {
             "delete": {}
           }
@@ -25,4 +25,4 @@ curl -sf -X PUT "${ES_HOST}/_ilm/policy/team1-logs-policy" \
     }
   }'
 
-echo "team1-logs-policy 등록 완료 (30일 경과 인덱스 자동 삭제)"
+echo "team1-logs-policy 등록 완료 (7일 경과 인덱스 자동 삭제)"

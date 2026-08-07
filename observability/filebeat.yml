@@ -10,6 +10,9 @@ filebeat.autodiscover:
               - not:
                   equals:
                     docker.container.name: team1-filebeat
+              - not:
+                  equals:
+                    docker.container.name: team1-logstash
           config:
             - type: container
               paths:

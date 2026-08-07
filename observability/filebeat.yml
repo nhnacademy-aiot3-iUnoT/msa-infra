@@ -4,8 +4,12 @@ filebeat.autodiscover:
       hints.enabled: true
       templates:
         - condition:
-            contains:
-              docker.container.name: team1
+            and:
+              - contains:
+                  docker.container.name: team1
+              - not:
+                  equals:
+                    docker.container.name: team1-filebeat
           config:
             - type: container
               paths:
@@ -17,13 +21,6 @@ filebeat.autodiscover:
 
 output.logstash:
   hosts: ["team1-logstash:5044"]
-
-condition:
-  and:
-    - contains:
-        docker.container.name: team1
-    - not:
-        docker.container.name: team1-filebeat
 
 logging.level: info
 logging.to_stderr: true

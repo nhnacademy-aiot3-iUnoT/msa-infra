@@ -23,6 +23,7 @@ services:
       ES_HOST: ${ES_HOST}
       ES_USER: ${ES_USER}
       ES_PASSWORD: ${ES_PASSWORD}
+      XPACK_MONITORING_ENABLED: "false"
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
     restart: unless-stopped

@@ -18,5 +18,12 @@ filebeat.autodiscover:
 output.logstash:
   hosts: ["team1-logstash:5044"]
 
+condition:
+  and:
+    - contains:
+        docker.container.name: team1
+    - not:
+        docker.container.name: team1-filebeat
+
 logging.level: info
 logging.to_stderr: true

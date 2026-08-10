@@ -14,3 +14,32 @@ scrape_configs:
       - targets:
           - team1-eureka-1:10402
           - team1-eureka-2:10403
+  - job_name: front
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - team1-front-1:10404
+          - team1-front-2:10405
+  - job_name: rule-engine
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - team1-rule-engine-1:10406
+          - team1-rule-engine-2:10407
+  - job_name: inventory
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - team1-inventory-1:10411
+          - team1-inventory-2:10412
+  - job_name: account
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - team1-account-1:10413
+          - team1-account-2:10414
+  - job_name: alert
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - team1-alert:10419

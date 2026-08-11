@@ -8,22 +8,22 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    MISSING_TOKEN(
-            HttpStatus.UNAUTHORIZED,
-            "AU001",
-            "토큰이 존재하지 않습니다."
-    ),
-
     INVALID_TOKEN(
             HttpStatus.UNAUTHORIZED,
-            "AU002",
+            "AU003",
             "유효하지 않은 토큰입니다."
     ),
 
     EXPIRED_TOKEN(
             HttpStatus.UNAUTHORIZED,
-            "AU003",
+            "AU004",
             "만료된 토큰입니다."
+    ),
+
+    MISSING_TOKEN(
+            HttpStatus.UNAUTHORIZED,
+            "AU007",
+            "토큰이 존재하지 않습니다."
     ),
 
     INTERNAL_SERVER_ERROR(

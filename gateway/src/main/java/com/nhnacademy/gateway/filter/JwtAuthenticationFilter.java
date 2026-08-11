@@ -4,6 +4,7 @@ import com.nhnacademy.gateway.global.config.JwtAuthProperties;
 import com.nhnacademy.gateway.dto.ApiResponse;
 import com.nhnacademy.gateway.dto.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import tools.jackson.databind.json.JsonMapper;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
@@ -37,26 +39,36 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                 .anyMatch(publicPath -> pathMatcher.match(publicPath, path));
 
         if (shouldNotFilter) {
+            log.debug("public path 통과 - path={}", path);
             return chain.filter(exchange);
         }
 
         String token = getJwtToken(request);
         if (token == null) {
+            log.debug("토큰 없음 - path={}", path);
             return unauthorized(exchange, ErrorCode.MISSING_TOKEN);
         }
 
         return jwtDecoder.decode(token)
-                .flatMap(jwt -> chain.filter(exchange))
+                .flatMap(jwt -> {
+                    log.debug("토큰 인증 성공 - path={}", path);
+                    return chain.filter(exchange);
+                })
                 .onErrorResume(JwtValidationException.class, e -> {
                         boolean isExpired = e.getErrors().stream()
                                 .filter(ex -> ex.getDescription() != null)
                                 .anyMatch(ex -> ex.getDescription().contains("expired"));
 
+                        log.debug("토큰 검증 실패 - path={}, expired={}", path, isExpired);
+
                         return (isExpired)
                                 ? unauthorized(exchange, ErrorCode.EXPIRED_TOKEN)
                                 : unauthorized(exchange, ErrorCode.INVALID_TOKEN);
                 })
-                .onErrorResume(JwtException.class, e -> unauthorized(exchange, ErrorCode.INVALID_TOKEN));
+                .onErrorResume(JwtException.class, e -> {
+                    log.debug("토큰 파싱 실패 - path={}", path);
+                    return unauthorized(exchange, ErrorCode.INVALID_TOKEN);
+                });
     }
 
     @Override

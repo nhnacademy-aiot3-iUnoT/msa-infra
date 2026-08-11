@@ -6,3 +6,7 @@ management:
   tracing:
     export:
       enabled: false
+
+logging:
+  level:
+    com.nhnacademy.gateway: DEBUG

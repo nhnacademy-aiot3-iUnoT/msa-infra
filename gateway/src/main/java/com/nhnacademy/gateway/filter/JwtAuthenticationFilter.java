@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         String token = getJwtToken(request);
         if (token == null) {
             log.debug("토큰 없음 - path={}", path);
-            return unauthorized(exchange, ErrorCode.MISSING_TOKEN);
+            return unauthorized(exchange, ErrorCode.UNAUTHORIZED);
         }
 
         return jwtDecoder.decode(token)

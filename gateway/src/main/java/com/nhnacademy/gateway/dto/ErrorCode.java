@@ -8,6 +8,12 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
+    UNAUTHORIZED(
+            HttpStatus.UNAUTHORIZED,
+            "AU002",
+            "인증이 필요합니다."
+    ),
+
     INVALID_TOKEN(
             HttpStatus.UNAUTHORIZED,
             "AU003",
@@ -18,12 +24,6 @@ public enum ErrorCode {
             HttpStatus.UNAUTHORIZED,
             "AU004",
             "만료된 토큰입니다."
-    ),
-
-    MISSING_TOKEN(
-            HttpStatus.UNAUTHORIZED,
-            "AU007",
-            "토큰이 존재하지 않습니다."
     ),
 
     INTERNAL_SERVER_ERROR(

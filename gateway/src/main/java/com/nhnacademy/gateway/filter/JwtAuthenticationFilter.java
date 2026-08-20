@@ -55,7 +55,13 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         return jwtDecoder.decode(token)
                 .flatMap(jwt -> {
                     log.debug("토큰 인증 성공 - path={}", path);
-                    return chain.filter(exchange);
+
+                    // 쿠키로 들어온 경우 내부 서비스는 쿠키를 모르기 때문에 항상 Authorization 헤더로 통일해서 전달
+                    ServerHttpRequest mutatedRequest = request.mutate()
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                            .build();
+
+                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
                 })
                 .onErrorResume(JwtValidationException.class, e -> {
                         boolean isExpired = e.getErrors().stream()

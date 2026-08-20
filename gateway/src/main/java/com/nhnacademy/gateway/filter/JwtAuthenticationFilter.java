@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +30,8 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     private final JsonMapper jsonMapper;
     private final JwtAuthProperties jwtAuthProperties;
     private final PathMatcher pathMatcher;
+
+    private static final String ACCESS_TOKEN_COOKIE = "access_token";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -76,16 +79,21 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         return 1;
     }
 
+
     private String getJwtToken(ServerHttpRequest request) {
         HttpHeaders headers = request.getHeaders();
 
         String authorization = headers.getFirst(HttpHeaders.AUTHORIZATION);
 
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
-            return null;
+        // 서버 대 서버 호출(front 등)은 Authorization 헤더로 옴
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            return authorization.substring(7);
         }
 
-        return authorization.substring(7);
+        // 브라우저 JS의 직접 호출은 httpOnly 쿠키로 옴 (JS는 토큰을 읽지 못하고, 브라우저가 자동으로 실어 보냄)
+        HttpCookie cookie = request.getCookies().getFirst(ACCESS_TOKEN_COOKIE);
+
+        return cookie != null ? cookie.getValue() : null;
     }
 
     private Mono<Void> unauthorized(ServerWebExchange exchange, ErrorCode errorCode) {

@@ -22,4 +22,4 @@ services:
 
 security:
   jwt:
-    public-paths: /api/auth/login, /api/accounts, /api/accounts/check-email, /api/accounts/check-pwd, /api/accounts/pwd/**, /api/core/invitations/**, /api/auth/.well-known/jwks.json
+    public-paths: /api/auth/login, /api/accounts, /api/accounts/check-email, /api/accounts/check-pwd, /api/accounts/pwd/**, /api/core/invitations/**, /api/auth/.well-known/jwks.json, /api/auth/refresh, /api/auth/logout

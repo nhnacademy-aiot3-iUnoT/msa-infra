@@ -32,3 +32,4 @@ security:
       - /api/accounts/check-pwd
       - /api/accounts/pwd/**
       - /api/core/invitations/**
+      - /api/core/docs/**
